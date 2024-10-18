@@ -1,0 +1,33 @@
+<.header>
+  Mission <%= @mission.id %>
+  <:subtitle>This is a mission record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/missions/#{@mission}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit mission</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @mission.name %></:item>
+  <:item title="Status"><%= @mission.status %></:item>
+  <:item title="Destination"><%= @mission.destination.name %></:item>
+</.list>
+
+<.back navigate={~p"/missions"}>Back to missions</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="mission-modal"
+  show
+  on_cancel={JS.patch(~p"/missions/#{@mission}")}
+>
+  <.live_component
+    module={GalacticCommandWeb.MissionLive.FormComponent}
+    id={@mission.id}
+    title={@page_title}
+    action={@live_action}
+    mission={@mission}
+    patch={~p"/missions/#{@mission}"}
+  />
+</.modal>

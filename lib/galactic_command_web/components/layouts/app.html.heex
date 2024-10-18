@@ -1,0 +1,22 @@
+<header class="bg-black text-white p-6 rounded-lg shadow-md mb-6">
+  <div class="mx-auto max-w-6xl flex items-center justify-between">
+    <.link href={~p"/"}>
+      <div class="flex items-center space-x-3">
+        <span class="text-3xl">🚀</span>
+        <h1 class="text-3xl font-bold">Galactic Command</h1>
+      </div>
+    </.link>
+    <ul class="flex space-x-6">
+      <li>
+        <a href={~p"/missions"} class="text-lg hover:text-yellow-400 transition">Missions</a>
+      </li>
+      <li><a href={~p"/planets"} class="text-lg hover:text-yellow-400 transition">Planets</a></li>
+    </ul>
+  </div>
+</header>
+<main class="px-4 py-20 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-2xl">
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+  </div>
+</main>

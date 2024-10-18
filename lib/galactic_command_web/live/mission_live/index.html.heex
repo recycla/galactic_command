@@ -1,0 +1,47 @@
+<.header>
+  Listing Missions
+  <:actions>
+    <.link patch={~p"/missions/new"}>
+      <.button>New Mission</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="missions"
+  rows={@streams.missions}
+  row_click={fn {_id, mission} -> JS.navigate(~p"/missions/#{mission}") end}
+>
+  <:col :let={{_id, mission}} label="Name"><%= mission.name %></:col>
+  <:col :let={{_id, mission}} label="Status"><%= mission.status %></:col>
+  <:action :let={{_id, mission}}>
+    <div class="sr-only">
+      <.link navigate={~p"/missions/#{mission}"}>Show</.link>
+    </div>
+    <.link patch={~p"/missions/#{mission}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, mission}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: mission.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="mission-modal"
+  show
+  on_cancel={JS.patch(~p"/missions")}
+>
+  <.live_component
+    module={GalacticCommandWeb.MissionLive.FormComponent}
+    id={@mission.id || :new}
+    title={@page_title}
+    action={@live_action}
+    mission={@mission}
+    patch={~p"/missions"}
+  />
+</.modal>
